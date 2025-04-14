@@ -42,7 +42,8 @@ export default function MobileNavigation() {
           <Briefcase className="w-5 h-5" />
           <span className="text-[10px] mt-1">Portfolio</span>
         </button>
-        <button
+        {/* Blog Nav Item - Coming Soon */}
+{/*         <button
           onClick={() => handleTabClick("blog")}
           className={`flex flex-col items-center justify-center w-full h-full ${
             activeTab === "blog" ? "text-amber-400" : "text-zinc-400"
@@ -50,7 +51,7 @@ export default function MobileNavigation() {
         >
           <BookOpen className="w-5 h-5" />
           <span className="text-[10px] mt-1">Blog</span>
-        </button>
+        </button> */}
         <button
           onClick={() => handleTabClick("contact")}
           className={`flex flex-col items-center justify-center w-full h-full ${

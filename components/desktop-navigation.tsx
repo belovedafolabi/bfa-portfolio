@@ -39,7 +39,8 @@ export default function DesktopNavigation() {
               Portfolio
             </button>
           </li>
-          <li>
+          {/* Blog Nav Item - Coming Soon */}
+{/*           <li>
             <button
               onClick={() => setActiveTab("blog")}
               className={`${
@@ -48,7 +49,7 @@ export default function DesktopNavigation() {
             >
               Blog
             </button>
-          </li>
+          </li> */}
           <li>
             <button
               onClick={() => setActiveTab("contact")}

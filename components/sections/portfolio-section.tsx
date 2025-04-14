@@ -23,22 +23,33 @@ export default function PortfolioSection() {
 
   const projects: Project[] = [
     {
-      title: "E-Commerce Mobile App",
-      category: "Mobile App",
-      image: "/placeholder.svg?height=300&width=400",
+      title: "Greenmozis LTD",
+      category: "Contract Company Webiste",
+      image: "/images/portfolio/greenmozis.png?height=300&width=400",
       description:
-        "A comprehensive e-commerce mobile application built with Flutter, offering a seamless shopping experience with advanced features like product search, filtering, cart management, and secure payment processing.",
-      technologies: ["Flutter", "Dart", "Firebase", "RESTful APIs", "Stripe Payment"],
-      features: [
-        "User authentication and profile management",
-        "Product catalog with categories and search",
-        "Shopping cart and wishlist functionality",
-        "Order tracking and history",
-        "Payment gateway integration",
-        "Push notifications",
+        "A modern platform featuring dynamic animations and robust contact systems for a Contracting Company, built to enhance Greenmozis LTD's services and online presence. Implemented performant static generation with Next.js 13+ App Router and real-time form handling.",
+      technologies: [
+        "Next.js 13+",
+        "TypeScript",
+        "Tailwind CSS",
+        "Framer Motion",
+        "Nodemailer",
+        "Zod Validation",
+        "Shadcn/ui",
+        "Vercel Analytics"
       ],
-      demoUrl: "#",
-      githubUrl: "#",
+      features: [
+        "Scroll-triggered animated sections",
+        "Dark/light mode theming system",
+        "Dual-channel contact form (admin/user emails)",
+        "SEO-optimized metadata strategy",
+        "Responsive grid layouts (Desktop/Tablet/Mobile)",
+        "Accessibility-first component library",
+        "Real-time form validation & error handling",
+        "Performance monitoring integration"
+      ],
+      demoUrl: "https://greenmozis.com.ng",
+      githubUrl: "",
     },
     {
       title: "Task Management Dashboard",
@@ -97,9 +108,17 @@ export default function PortfolioSection() {
   ]
 
   const openProjectDrawer = (project: Project) => {
-    setSelectedProject(project)
-    setIsDrawerOpen(true)
-  }
+    setSelectedProject(project);
+    setIsDrawerOpen(true);
+    
+    // Smooth scroll to top of entire page
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 300);
+  };
 
   return (
     <section className="space-y-6">
@@ -107,6 +126,7 @@ export default function PortfolioSection() {
         Portfolio
         <span className="absolute bottom-0 left-0 w-12 h-1 bg-amber-gradient rounded-full"></span>
       </h2>
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((project, index) => (
@@ -134,7 +154,7 @@ export default function PortfolioSection() {
 
       {/* Project Details Drawer */}
       <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-        <DrawerContent className="max-w-4xl mx-auto">
+        <DrawerContent className="max-w-4xl mx-auto h-[85vh] md:h-[90vh] overflow-y-auto scrollbar-hide">
           {selectedProject && (
             <div className="space-y-6">
               <div className="relative w-full h-64 md:h-80 rounded-xl overflow-hidden">
@@ -152,8 +172,10 @@ export default function PortfolioSection() {
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <p className="text-zinc-300 text-xs font-normal leading-relaxed">{selectedProject.description}</p>
+              <div className="space-y-6 pb-[calc(16px+env(safe-area-inset-bottom))] px-4 md:pb-16">
+                <p className="text-zinc-300 text-xs font-normal leading-relaxed">
+                  {selectedProject.description}
+                </p>
 
                 {selectedProject.technologies && (
                   <div>
@@ -179,30 +201,30 @@ export default function PortfolioSection() {
                   </div>
                 )}
 
-                <div className="flex gap-4 pt-4 mb-16">
-                  {selectedProject.demoUrl && (
-                    <a
-                      href={selectedProject.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-amber-gradient text-black rounded-lg hover:shadow-amber transition-shadow duration-300"
-                    >
-                      <ExternalLink size={16} />
-                      Live Demo
-                    </a>
-                  )}
-                  {selectedProject.githubUrl && (
-                    <a
-                      href={selectedProject.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors"
-                    >
-                      <Github size={16} />
-                      View Code
-                    </a>
-                  )}
-                </div>
+                {(selectedProject.demoUrl || selectedProject.githubUrl) && (
+                  <div className="flex flex-col md:flex-row gap-4 mb-8 md:mb-0">
+                    {selectedProject.demoUrl && (
+                      <a
+                        href={selectedProject.demoUrl}
+                        className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-3 bg-amber-gradient text-black rounded-lg hover:shadow-amber transition-shadow duration-300"
+                      >
+                        <ExternalLink size={16} />
+                        Live Demo
+                      </a>
+                    )}
+                    {selectedProject.githubUrl && (
+                      <a
+                        href={selectedProject.githubUrl}
+                        className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-3 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors"
+                      >
+                        <Github size={16} />
+                        View Code
+                      </a>
+                    )}
+                  </div>
+                )}
+
+                <div className="md:hidden flex min-h-20 min-w-full"></div>
               </div>
             </div>
           )}

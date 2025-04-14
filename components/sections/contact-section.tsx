@@ -1,15 +1,56 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { toast } from "sonner"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Send, Smartphone, Globe, Briefcase } from "lucide-react"
+import { EmailTemplate } from "@/components/email-template"
+
+const formSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  subject: z.string().min(5, "Subject must be at least 5 characters"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+})
+
+type FormValues = z.infer<typeof formSchema>
+
+const serviceOptions = [
+  {
+    id: "web",
+    title: "Website Development",
+    icon: Globe,
+    subject: "Website Development Inquiry",
+    message:
+      "Hello Feranmi,\n\nI'm interested in developing a website for my business. I would like to discuss the requirements, timeline, and budget.\n\nLooking forward to your response.",
+  },
+  {
+    id: "mobile",
+    title: "Mobile App Development",
+    icon: Smartphone,
+    subject: "Mobile App Development Project",
+    message:
+      "Hello Feranmi,\n\nI'm looking for a skilled Mobile developer to build a mobile application. I would like to discuss my app idea, features, and get your insights on development approach.\n\nLooking forward to collaborating with you.",
+  },
+  {
+    id: "consultation",
+    title: "Consultation",
+    icon: Briefcase,
+    subject: "Technical Consultation Request",
+    message:
+      "Hello Feranmi,\n\nI would like to schedule a consultation session to discuss a technical challenge I'm facing with my project. I need expert advice on architecture, technology stack, and best practices.\n\nPlease let me know your availability for a call.",
+  },
+]
 
 export default function ContactSection() {
+  const [activeService, setActiveService] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,56 +58,59 @@ export default function ContactSection() {
     message: "",
   })
 
-  const [activeService, setActiveService] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Form submitted:", formData)
-    // Here you would typically send the form data to your backend
-    alert("Message sent! (This is a demo)")
-  }
-
-  const serviceOptions = [
-    {
-      id: "web",
-      title: "Website Development",
-      icon: Globe,
-      subject: "Website Development Inquiry",
-      message:
-        "Hello Aakash,\n\nI'm interested in developing a website for my business. I would like to discuss the requirements, timeline, and budget.\n\nLooking forward to your response.",
-    },
-    {
-      id: "mobile",
-      title: "Mobile App Development",
-      icon: Smartphone,
-      subject: "Mobile App Development Project",
-      message:
-        "Hello Aakash,\n\nI'm looking for a skilled Flutter developer to build a mobile application. I would like to discuss my app idea, features, and get your insights on development approach.\n\nLooking forward to collaborating with you.",
-    },
-    {
-      id: "consultation",
-      title: "Consultation",
-      icon: Briefcase,
-      subject: "Technical Consultation Request",
-      message:
-        "Hello Aakash,\n\nI would like to schedule a consultation session to discuss a technical challenge I'm facing with my project. I need expert advice on architecture, technology stack, and best practices.\n\nPlease let me know your availability for a call.",
-    },
-  ]
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    }
+  })
 
   const selectService = (serviceId: string) => {
     const service = serviceOptions.find((s) => s.id === serviceId)
     if (service) {
       setActiveService(serviceId)
-      setFormData((prev) => ({
-        ...prev,
-        subject: service.subject,
-        message: service.message,
-      }))
+      setValue("subject", service.subject)
+      setValue("message", service.message)
+    }
+  }
+
+  const onSubmit = async (data: FormValues) => {
+    setIsSubmitting(true)
+    const toastId = toast.loading("Sending message...")
+    
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) throw new Error("Failed to send message")
+      
+      toast.success("Message sent successfully!", { id: toastId })
+      reset()
+      setActiveService(null)
+    } catch (error) {
+      toast.error("Failed to send message. Please try again.", { id: toastId })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -96,72 +140,60 @@ export default function ContactSection() {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="name" className="text-xs font-normal text-zinc-300">
-                  Your Name
-                </label>
+                <label className="text-white" htmlFor="name">Your Name</label>
                 <Input
                   id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
+                  {...register("name")}
                   placeholder="John Doe"
-                  required
                   className="bg-zinc-800 border-zinc-700 text-white rounded-lg"
                 />
+                {errors.name && <p className="text-xs text-amber-400">{errors.name.message}</p>}
               </div>
               <div className="space-y-2">
-                <label htmlFor="email" className="text-xs font-normal text-zinc-300">
-                  Your Email
-                </label>
+                <label className="text-white"  htmlFor="email">Your Email</label>
                 <Input
                   id="email"
-                  name="email"
                   type="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  {...register("email")}
                   placeholder="john@example.com"
-                  required
                   className="bg-zinc-800 border-zinc-700 text-white rounded-lg"
                 />
+                {errors.email && <p className="text-xs text-amber-400">{errors.email.message}</p>}
               </div>
             </div>
+
             <div className="space-y-2">
-              <label htmlFor="subject" className="text-xs font-normal text-zinc-300">
-                Subject
-              </label>
+              <label className="text-white"  htmlFor="subject">Subject</label>
               <Input
                 id="subject"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
+                {...register("subject")}
                 placeholder="Project Inquiry"
-                required
                 className="bg-zinc-800 border-zinc-700 text-white rounded-lg"
               />
+              {errors.subject && <p className="text-xs text-amber-400">{errors.subject.message}</p>}
             </div>
+
             <div className="space-y-2">
-              <label htmlFor="message" className="text-xs font-normal text-zinc-300">
-                Message
-              </label>
+              <label className="text-white"  htmlFor="message">Message</label>
               <Textarea
                 id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
+                {...register("message")}
                 placeholder="Tell me about your project..."
-                required
                 className="min-h-32 bg-zinc-800 border-zinc-700 text-white rounded-lg"
               />
+              {errors.message && <p className="text-xs text-amber-400">{errors.message.message}</p>}
             </div>
+
             <Button
               type="submit"
+              disabled={isSubmitting}
               className="bg-amber-gradient hover:bg-amber-500 text-black rounded-lg hover:shadow-amber transition-shadow duration-300"
             >
               <Send className="w-4 h-4 mr-2" />
-              Send Message
+              {isSubmitting ? "Sending..." : "Send Message"}
             </Button>
           </form>
         </CardContent>

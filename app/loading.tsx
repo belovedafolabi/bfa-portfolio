@@ -15,7 +15,7 @@ export default function Loading() {
             <div className="h-full bg-amber-gradient animate-loading-bar"></div>
           </div>
 
-          <p className="text-zinc-400">Please wait while we prepare your experience</p>
+          <p className="text-zinc-400">Please wait while your experience is loaded...</p>
         </div>
       </div>
     </div>
