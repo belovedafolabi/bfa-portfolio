@@ -9,11 +9,11 @@ export const ConfirmationTemplate: React.FC<ConfirmationTemplateProps> = ({ name
   <Tailwind>
     <div className="bg-zinc-800/80 backdrop-blur-sm border border-zinc-700 rounded-xl p-6 shadow-lg">
       {/* Logo Section */}
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center items-center mb-8">
         <img 
           src={`${process.env.NEXT_PUBLIC_SITE_LINK}/images/bfa-icon2.png`}
           alt="BFA Logo"
-          className="w-16 h-16 rounded-full border-2 border-amber-400/80 hover:scale-110 transition-transform duration-300"
+          className="w-16 h-16 border-2 border-amber-400/80 hover:scale-110 transition-transform duration-300"
         />
       </div>
       <h2 className="text-2xl font-bold text-amber-400 pb-2 mb-4 relative">
