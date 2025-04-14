@@ -11,7 +11,7 @@ export const ConfirmationTemplate: React.FC<ConfirmationTemplateProps> = ({ name
       {/* Logo Section */}
       <div className="flex justify-center mb-8">
         <img 
-          src={`${process.env.NEXT_PUBLIC_SITE_LINK}/images/bfa-icon.png`}
+          src={`${process.env.NEXT_PUBLIC_SITE_LINK}/images/bfa-icon2.png`}
           alt="BFA Logo"
           className="w-16 h-16 rounded-full border-2 border-amber-400/80 hover:scale-110 transition-transform duration-300"
         />
