@@ -76,6 +76,38 @@ export default function AboutSection() {
         </p>
       </section>
 
+            {/* Skills Section */}
+            <section className="space-y-6">
+        <h2 className="text-3xl font-bold relative pb-2 mt-7">
+          Skills
+          <span className="absolute bottom-0 left-0 w-12 h-1 bg-amber-gradient rounded-full"></span>
+        </h2>
+
+        <div className="overflow-x-hidden group relative py-4">
+          <div className="flex animate-marquee flex-nowrap gap-4 group-hover:[animation-play-state:paused]">
+            {[...skills, ...skills, ...skills].map((skill, index) => (
+              <div 
+                key={index}
+                className="bg-zinc-800/50 backdrop-blur-sm p-3 rounded-xl hover:shadow-amber transition-shadow duration-300 flex-shrink-0"
+              >
+                <div className="w-16 h-16 lg:w-24 lg:h-24 relative rounded-xl transform transition-transform duration-300 hover:scale-110">
+                  <Image
+                    src={skill.imageSrc}
+                    alt={skill.name || "Skill icon"}
+                    width={96}
+                    height={96}
+                    className="object-contain p-1.5"
+                    quality={100}
+                    loading="eager"
+                    priority={false}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* What I'm Doing Section */}
       <section className="space-y-6 text-white">
         <h2 className="text-3xl font-bold relative pb-2 mt-7">
@@ -207,38 +239,6 @@ export default function AboutSection() {
               </div>
             </CardContent>
           </Card>
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section className="space-y-6">
-        <h2 className="text-3xl font-bold relative pb-2 mt-7">
-          Skills
-          <span className="absolute bottom-0 left-0 w-12 h-1 bg-amber-gradient rounded-full"></span>
-        </h2>
-
-        <div className="overflow-x-hidden group relative py-4">
-          <div className="flex animate-marquee flex-nowrap gap-4 group-hover:[animation-play-state:paused]">
-            {[...skills, ...skills, ...skills].map((skill, index) => (
-              <div 
-                key={index}
-                className="bg-zinc-800/50 backdrop-blur-sm p-3 rounded-xl hover:shadow-amber transition-shadow duration-300 flex-shrink-0"
-              >
-                <div className="w-16 h-16 lg:w-24 lg:h-24 relative rounded-xl transform transition-transform duration-300 hover:scale-110">
-                  <Image
-                    src={skill.imageSrc}
-                    alt={skill.name || "Skill icon"}
-                    width={96}
-                    height={96}
-                    className="object-contain p-1.5"
-                    quality={100}
-                    loading="eager"
-                    priority={false}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
     </>
