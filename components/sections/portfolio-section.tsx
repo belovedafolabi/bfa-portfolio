@@ -60,7 +60,7 @@ export default function PortfolioSection() {
       features: [
         "Fraud free events",
         "Custom ticket sales event page",
-        "Codeless",
+        "Codeless Website",
         "Real time analytics",
         "Payout on demand",
         "Auto generated digital tickets",
