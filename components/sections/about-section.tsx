@@ -34,23 +34,13 @@ const skills = [
   },
   { 
     id: 7, 
-    name: "Firebase",
-    imageSrc: "/images/skills/firebase.svg"
-  },
-  { 
-    id: 8, 
     name: "Slack",
     imageSrc: "/images/skills/slack.svg"
   },
   { 
-    id: 9, 
+    id: 8, 
     name: "Tailwind CSS",
     imageSrc: "/images/skills/tailwind.svg"
-  },
-  { 
-    id: 10, 
-    name: "Figma",
-    imageSrc: "/images/skills/figma.svg"
   }
 ];
 
