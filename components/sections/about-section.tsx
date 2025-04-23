@@ -85,7 +85,7 @@ export default function AboutSection() {
 
         <div className="overflow-x-hidden group relative py-4">
           <div className="flex animate-marquee flex-nowrap gap-4 group-hover:[animation-play-state:paused]">
-            {[...skills, ...skills, ...skills].map((skill, index) => (
+            {[...skills, ...skills, ...skills, ...skills, ...skills].map((skill, index) => (
               <div 
                 key={index}
                 className="bg-zinc-800/50 backdrop-blur-sm p-3 rounded-xl hover:shadow-amber transition-shadow duration-300 flex-shrink-0"
