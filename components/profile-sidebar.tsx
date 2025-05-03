@@ -162,7 +162,7 @@ export default function ProfileSidebar() {
 
         {/* Desktop View */}
         <div className="hidden lg:block">
-          <div className="flex flex-col items-center p-6 relative">
+          <div className="flex flex-col items-center p-6 relative text-white">
             {renderProfileImage(false)}
             <h1 className="text-2xl py-4 font-bold mb-1">{personalDetails.name}</h1>
             <div className="bg-zinc-800 px-3 py-1 rounded-full text-sm mb-4 text-amber-400">
