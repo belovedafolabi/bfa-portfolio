@@ -114,7 +114,7 @@ export default function ProfileSidebar() {
   // Updated VoxelModel to use the new model path
 
   const VoxelModel = ({ isMobile }: { isMobile: boolean }) => {
-    const { scene } = useGLTF("/model/voxelize.glb");
+    const { scene } = useGLTF("model/voxelize.glb");
     // Adjust the orientation of the model by -90 degrees on the Y-axis
     scene.rotation.y = -Math.PI / 2;
     return (

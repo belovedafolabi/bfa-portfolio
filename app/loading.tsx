@@ -11,7 +11,7 @@ export default function Loading() {
       transition={{ duration: 0.5 }}
       className="min-h-screen bg-dark-121212 flex flex-col items-center justify-center text-white fixed inset-0 z-50"
     >
-      <div className="w-full max-w-md rounded-2xl p-8 backdrop-blur-sm shadow-lg text-center">
+      <div className="w-full max-w-md rounded-2xl p-8 text-center">
         <div className="flex flex-col items-center justify-center space-y-4">
           <motion.div
             animate={{ scale: [1, 1.05, 1] }}
