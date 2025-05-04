@@ -20,9 +20,6 @@ export default function Home() {
   return (
     <TabProvider>
       <div className="min-h-screen bg-dark-121212 text-white">
-        <AnimatePresence>
-          {isLoading && <Loading />}
-        </AnimatePresence>
         {!isLoading && (
           <>
             <div className="container mx-auto px-4 py-8 md:py-20">
