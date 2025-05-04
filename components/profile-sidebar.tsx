@@ -1,10 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Mail, MapPin, Phone, Github, Linkedin, Twitter, ChevronDown, ChevronUp } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 
 // Update the contactInfo array to include unique IDs
 const contactInfo = [
@@ -109,22 +111,92 @@ export default function ProfileSidebar() {
     </div>
   );
 
+  // Updated VoxelModel to use the new model path
+
+  const VoxelModel = ({ isMobile }: { isMobile: boolean }) => {
+    const { scene } = useGLTF("/model/voxelize.glb");
+    // Adjust the orientation of the model by -90 degrees on the Y-axis
+    scene.rotation.y = -Math.PI / 2;
+    return (
+      <Canvas
+        className={`relative ${isMobile ? "w-20 h-20" : "w-44 h-44"} rounded-xl bg-amber-gradient/20`}
+        camera={{ position: [0, 0, 1.47], fov: 50 }}
+      >
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[10, 10, 10]} intensity={1} />
+        <primitive object={scene} scale={isMobile ? 1 : 1} />
+        <OrbitControls
+          autoRotate
+          autoRotateSpeed={5}
+          enableZoom={true}
+          enablePan={false}
+        />
+      </Canvas>
+    );
+  };
+  /* Track mouse and orient model to match */
+/*   const VoxelModel = ({ isMobile }: { isMobile: boolean }) => {
+    const { scene } = useGLTF("/model/voxelize.glb");
+    scene.rotation.y = -Math.PI / 2;
+
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [autoRotation, setAutoRotation] = useState(0);
+
+    useEffect(() => {
+      if (!isMobile) {
+        const handleMouseMove = (event: MouseEvent) => {
+          const { clientX, clientY } = event;
+          const modelX = 88; // Half of 176px (model width)
+          const modelY = 88; // Half of 176px (model height)
+          const x = ((clientX - modelX) / modelX) * 2 - 1;
+          const y = -((clientY - modelY) / modelY) * 2 + 1;
+          setMousePosition({
+            x: x * Math.PI * 0.25, // Scale to rotate smoothly
+            y: y * Math.PI * 0.25, // Scale to rotate smoothly
+          });
+        };
+
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
+      } else {
+        const interval = setInterval(() => {
+          setAutoRotation((prev) => prev + 0.01); // Auto-rotate increment
+        }, 16); // ~60fps
+        return () => clearInterval(interval);
+      }
+    }, [isMobile]);
+
+    return (
+      <Canvas
+        className={`relative ${isMobile ? "w-20 h-20" : "w-44 h-44"} rounded-xl bg-amber-gradient/20`}
+        camera={{ position: [0, 0, 1.47], fov: 50 }}
+      >
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[10, 10, 10]} intensity={1} />
+        <primitive
+          object={scene}
+          scale={isMobile ? 1 : 1}
+          rotation={
+            isMobile
+              ? [0, autoRotation - Math.PI / 2, 0] // Auto-rotation for mobile
+              : [mousePosition.y, mousePosition.x - Math.PI / 2, 0] // Mouse tracking for desktop
+          }
+        />
+        <OrbitControls enableZoom={true} enablePan={false} />
+      </Canvas>
+    );
+  }; */
+
   const renderProfileImage = (isMobile: boolean) => (
-    <div className={`relative ${isMobile ? 'w-12 h-16' : 'w-32 h-40'} rounded-xl bg-amber-gradient/20 backdrop-blur-sm`}>
-      <Image
-        src={isMobile ? personalDetails.image.mobile : personalDetails.image.desktop}
-        alt={personalDetails.image.alt}
-        width={isMobile ? 48 : 128}
-        height={isMobile ? 48 : 128}
-        className="object-cover"
-      />
+    <div className={`relative ${isMobile ? "w-20 h-20" : "w-44 h-44"} rounded-xl bg-amber-gradient/20`}>
+      <VoxelModel isMobile={isMobile} />
       {personalDetails.onlineStatus && (
         <div className="absolute bottom-0 right-0 w-3 h-3 lg:w-4 lg:h-4 bg-green-500/80 rounded-full animate-[pulse_2s_ease-in-out_infinite]">
           <div className="absolute inset-0 rounded-full bg-green-500 animate-[ping_2s_ease-in-out_infinite]" />
         </div>
       )}
     </div>
-  )
+  );
 
   return (
     <Card className="bg-zinc-900 backdrop-blur-sm border-rounded overflow-hidden lg:sticky lg:top-20 rounded-2xl shadow-lg hover:shadow-amber transition-shadow duration-300 max-w-xs mx-auto">
