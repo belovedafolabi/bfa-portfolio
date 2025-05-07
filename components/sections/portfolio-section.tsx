@@ -70,23 +70,32 @@ export default function PortfolioSection() {
       githubUrl: "",
     },
     {
-      title: "Trietix (Event Management)",
-      category: "Event Management Website",
-      image: "/images/portfolio/trietix.png?height=300&width=40",
+      title: "GPA & CGPA Calculator",
+      category: "Educational Tool / GPA Tracking App",
+      image: "/images/portfolio/bfa-cgpa.png?height=300&width=40",
       description:
-        "A modern event management and ticket sales platform geared towards digitizing all processes in the event management space. Trietix -- Event Management Made [Easier, Efficient, Effortless]",
-      technologies: ["Tailwind CSS", "Next JS 13+", "Typescript", "Mongo DB", "Google Auth", "Zod Validation"],
-      features: [
-        "Fraud free events",
-        "Custom ticket sales event page",
-        "Codeless",
-        "Real time analytics",
-        "Payout on demand",
-        "Auto generated digital tickets",
-        "Fast Check-in (QR Code)",
+        "A comprehensive academic performance tracking tool designed to help students calculate GPA and CGPA with precision. Supports dynamic course entry, PDF exports, transcript parsing, and more — built for accuracy, accessibility, and ease.",
+      technologies: [
+        "React 19",
+        "Next.js 14+",
+        "Tailwind CSS",
+        "TypeScript",
+        "Zustand",
+        "html2pdf.js",
+        "Framer Motion"
       ],
-      demoUrl: "https://trietix.com",
-      githubUrl: "",
+      features: [
+        "5.0 & 4.0 scale GPA calculation",
+        "Multi-semester CGPA tracking",
+        "Transcript image/PDF parsing",
+        "Real-time GPA/CGPA calculation",
+        "PDF export with watermark & preview",
+        "Dark/light mode with theme persistence",
+        "Mobile responsive & accessible UI",
+        "Guided feature tour for onboarding",
+      ],
+      demoUrl: "https://bfa-cgpa.vercel.app",
+      githubUrl: "https://github.com/belovedafolabi/bfa-cgpa",
     },
     {
       title: "Greenmozis LTD",
@@ -185,6 +194,29 @@ export default function PortfolioSection() {
               </div>
 
               <div className="space-y-6 pb-[calc(16px+env(safe-area-inset-bottom))] px-4 md:pb-16">
+              {(selectedProject.demoUrl || selectedProject.githubUrl) && (
+                  <div className="flex flex-col md:flex-row gap-4 mb-8 md:mb-0">
+                    {selectedProject.demoUrl && (
+                      <a
+                        href={selectedProject.demoUrl}
+                        className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-3 bg-amber-gradient text-black rounded-lg hover:shadow-amber transition-shadow duration-300"
+                      >
+                        <ExternalLink size={16} />
+                        Live Demo
+                      </a>
+                    )}
+                    {selectedProject.githubUrl && (
+                      <a
+                        href={selectedProject.githubUrl}
+                        className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-3 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors"
+                      >
+                        <Github size={16} />
+                        View Code
+                      </a>
+                    )}
+                  </div>
+                )}
+                
                 <p className="text-zinc-300 text-xs font-normal leading-relaxed">
                   {selectedProject.description}
                 </p>
@@ -213,28 +245,7 @@ export default function PortfolioSection() {
                   </div>
                 )}
 
-                {(selectedProject.demoUrl || selectedProject.githubUrl) && (
-                  <div className="flex flex-col md:flex-row gap-4 mb-8 md:mb-0">
-                    {selectedProject.demoUrl && (
-                      <a
-                        href={selectedProject.demoUrl}
-                        className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-3 bg-amber-gradient text-black rounded-lg hover:shadow-amber transition-shadow duration-300"
-                      >
-                        <ExternalLink size={16} />
-                        Live Demo
-                      </a>
-                    )}
-                    {selectedProject.githubUrl && (
-                      <a
-                        href={selectedProject.githubUrl}
-                        className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-3 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors"
-                      >
-                        <Github size={16} />
-                        View Code
-                      </a>
-                    )}
-                  </div>
-                )}
+
 
                 <div className="md:hidden flex min-h-20 min-w-full"></div>
               </div>
